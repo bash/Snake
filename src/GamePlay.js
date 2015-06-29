@@ -28,7 +28,12 @@
         }
     };
 
-    var dependencies = ['src/RainbowGenerator', 'src/levels/First', 'src/levels/Second', 'src/StopGameError'];
+    var dependencies = [
+        'src/RainbowGenerator',
+        'src/levels/First',
+        'src/levels/Second',
+        'src/StopGameError'
+    ];
 
     define(dependencies, function (Generator, FirstLevel, SecondLevel, StopGameError) {
         /**
@@ -67,7 +72,7 @@
                 snake = game.snake,
                 map = game.map;
 
-            if (game.level === 1 && game.score > 30) {
+            if (game.level === 1 && game.score > 20) {
                 game.level = 2;
                 this.startLevel(new SecondLevel());
             }

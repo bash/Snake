@@ -21,9 +21,11 @@
             window.addEventListener('keydown', function (e) {
                 switch (e.keyCode) {
                     case 38:
+                        e.preventDefault();
                         game.setDirection(Direction.up);
                         break;
                     case 40:
+                        e.preventDefault();
                         game.setDirection(Direction.down);
                         break;
                     case 37:
@@ -33,11 +35,12 @@
                         game.setDirection(Direction.right);
                         break;
                     case 32:
-                        game.pause();
+                        game.over ? game.start() : game.pause();
+                        break;
                 }
             });
 
-            game.start(0);
+            game.start();
         });
     };
 

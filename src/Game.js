@@ -2,9 +2,17 @@
 
     'use strict';
 
-    var dependencies = ['src/Snake', 'src/Map', 'src/RainbowGenerator', 'src/Block', 'src/GamePlay', 'src/Direction'];
+    var dependencies = [
+        'src/Snake',
+        'src/Map',
+        'src/RainbowGenerator',
+        'src/Block',
+        'src/GamePlay',
+        'src/StopGameError',
+        'src/drawings/over'
+    ];
 
-    define(dependencies, function (Snake, Map, RainbowGenerator, Block, GamePlay, Direction) {
+    define(dependencies, function (Snake, Map, RainbowGenerator, Block, GamePlay, StopGameError, over) {
         /**
          *
          * @param {Canvas} canvas
@@ -57,6 +65,12 @@
 
             /**
              *
+             * @type {boolean}
+             */
+            this.over = false;
+
+            /**
+             *
              * @type {Canvas}
              */
             this.canvas = canvas;
@@ -80,7 +94,18 @@
 
             if (!this.isPaused()) {
                 this.ticks += 1;
-                this.gamePlay.doTick(this.ticks);
+                try {
+                    this.gamePlay.doTick(this.ticks);
+                } catch (e) {
+                    if (e instanceof StopGameError) {
+                        this.canvas.map = over();
+                        this.canvas.update();
+                        this.over = true;
+                        return;
+                    } else {
+                        throw e;
+                    }
+                }
             }
 
             this.map.draw(this.snake.parts);
