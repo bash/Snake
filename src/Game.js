@@ -51,6 +51,12 @@
 
             /**
              *
+             * @type {number}
+             */
+            this.level = 1;
+
+            /**
+             *
              * @type {Canvas}
              */
             this.canvas = canvas;

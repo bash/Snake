@@ -34,6 +34,9 @@
             this.direction = 0;
         };
 
+        /**
+         * Moves the snake 1 block into the current direction
+         */
         Snake.fn.move = function () {
             this.lastParts = [].concat(this.parts);
 
@@ -46,6 +49,13 @@
             }, this);
 
             this.parts.pop();
+        };
+
+        /**
+         * Moves the snake back one step
+         */
+        Snake.fn.back = function(){
+            this.parts = this.lastParts;
         };
 
         /**

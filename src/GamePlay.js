@@ -28,9 +28,9 @@
         }
     };
 
-    var dependencies = ['src/RainbowGenerator', 'src/levels/First', 'src/StopGameError'];
+    var dependencies = ['src/RainbowGenerator', 'src/levels/First', 'src/levels/Second', 'src/StopGameError'];
 
-    define(dependencies, function (Generator, FirstLevel, StopGameError) {
+    define(dependencies, function (Generator, FirstLevel, SecondLevel, StopGameError) {
         /**
          *
          * @param {Game} game
@@ -67,8 +67,14 @@
                 snake = game.snake,
                 map = game.map;
 
+            if (game.level === 1 && game.score > 30) {
+                game.level = 2;
+                this.startLevel(new SecondLevel());
+            }
+
             snake.move();
             map.draw(snake.parts);
+
 
             // Spawn food every 20 ticks
             if (tick % 20 == 0 && map.food.length === 0) {
@@ -81,8 +87,16 @@
             }
 
             // Test if the snake hit the border
-            if (!map.contains(snake.parts[0])) {
-                snake.parts = snake.lastParts;
+            if (!map.contains(snake.head)) {
+                snake.back();
+                map.draw(snake.parts);
+
+                throw new StopGameError(game);
+            }
+
+            // Test if snake hit an obstacle
+            if (findInArray(map.obstacles, snake.head)) {
+                snake.back();
                 map.draw(snake.parts);
 
                 throw new StopGameError(game);
@@ -90,7 +104,7 @@
 
             // Prevent the snake from biting itself
             if (findDuplicate(snake.parts, snake.parts[0])) {
-                snake.parts = snake.lastParts;
+                snake.back();
                 map.draw(snake.parts);
 
                 throw new StopGameError(game);
