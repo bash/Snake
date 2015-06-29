@@ -25,7 +25,7 @@
              *
              * @type {number}
              */
-            this.tickSpeed = 110;
+            this.tickSpeed = 130;
 
             /**
              *
@@ -47,7 +47,6 @@
             this.map.obstacles.push( new Block(4, 6, '#ccc') );
             this.map.obstacles.push( new Block(15, 6, '#ccc') );
 
-            // Add some obstacles
             for (var j = 4; j < 16; j++) {
                 this.map.obstacles.push( new Block(j, 15, '#ccc') );
             }

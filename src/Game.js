@@ -84,8 +84,14 @@
          * @param {Number} direction
          */
         Game.fn.start = function (direction) {
+            this.over = false;
+            this.score = 0;
+            this.level = 1;
+            this.ticks = 0;
+
             this.snake.setDirection(direction || 0);
             this.gamePlay.start();
+
             this.doTick();
         };
 
@@ -94,13 +100,12 @@
 
             if (!this.isPaused()) {
                 this.ticks += 1;
+
                 try {
                     this.gamePlay.doTick(this.ticks);
                 } catch (e) {
                     if (e instanceof StopGameError) {
-                        this.canvas.map = over();
-                        this.canvas.update();
-                        this.over = true;
+                        this.gameOver();
                         return;
                     } else {
                         throw e;
@@ -114,6 +119,12 @@
             window.setTimeout(function () {
                 _this.doTick();
             }, this.speed);
+        };
+
+        Game.fn.gameOver = function() {
+            this.canvas.map = over();
+            this.canvas.update();
+            this.over = true;
         };
 
         /**

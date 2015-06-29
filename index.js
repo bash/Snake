@@ -35,6 +35,7 @@
                         game.setDirection(Direction.right);
                         break;
                     case 32:
+                        e.preventDefault();
                         game.over ? game.start() : game.pause();
                         break;
                 }

@@ -80,7 +80,6 @@
             snake.move();
             map.draw(snake.parts);
 
-
             // Spawn food every 20 ticks
             if (tick % 20 == 0 && map.food.length === 0) {
                 this.spawnFood();
@@ -150,6 +149,7 @@
 
             // Set game presets from the level.
             game.snake.parts = [level.initialBlock];
+            game.snake.direction = 0;
             game.speed = level.tickSpeed;
 
             game.setMap(level.map);
