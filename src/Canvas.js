@@ -9,7 +9,7 @@
          * @param {Grid} grid
          * @constructor
          */
-        var Canvas = function Canvas(element, grid) {
+        var Canvas = function Canvas(element, map) {
             /**
              *
              * @type {HTMLCanvasElement}
@@ -18,9 +18,9 @@
 
             /**
              *
-             * @type {Grid}
+             * @type {Map}
              */
-            this.grid = grid;
+            this.map = map;
 
             /**
              *
@@ -36,9 +36,9 @@
             ctx.clearRect(0, 0, this.element.width, this.element.height);
 
             // Update canvas size
-            this.element.width = this.element.height = this.grid.size * this.blockSize;
+            this.element.width = this.element.height = this.map.size * this.blockSize;
 
-            this.grid.getBlocks().forEach(function (block) {
+            this.map.getBlocks().forEach(function (block) {
                 ctx.fillStyle = block.color;
 
                 ctx.fillRect(block.x * this.blockSize, block.y * this.blockSize, this.blockSize, this.blockSize);

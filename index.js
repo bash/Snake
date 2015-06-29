@@ -3,33 +3,41 @@
     'use strict';
 
     // Todo: Pause (space bar)
-    // Todo: Colored blocks
-    // Todo: gameplay
-    // Todo: food
     // Todo: obstacles
+    // Todo: Cleaner Events / Direction update
 
     var main = function () {
-        require(['src/Game', 'src/Canvas', 'src/Snake'], function (Game, Canvas, Snake) {
-            var game = new Game(new Canvas(document.querySelector('.snake-canvas')));
+        require(['src/Game', 'src/Canvas', 'src/Direction'], function (Game, Canvas, Direction) {
+            var canvas, $canvas, game;
+
+            $canvas = document.querySelector('.snake-canvas');
+            canvas = new Canvas($canvas);
+            game = new Game(canvas);
+
+            $canvas.addEventListener('scoreUpdate', function (e) {
+                document.querySelector('.snake-score').innerText = e.detail.score;
+            });
 
             window.addEventListener('keydown', function (e) {
                 switch (e.keyCode) {
                     case 38:
-                        game.snake.direction = Snake.DIRECTION_UP;
+                        game.setDirection(Direction.up);
                         break;
                     case 40:
-                        game.snake.direction = Snake.DIRECTION_DOWN;
+                        game.setDirection(Direction.down);
                         break;
                     case 37:
-                        game.snake.direction = Snake.DIRECTION_LEFT;
+                        game.setDirection(Direction.left);
                         break;
                     case 39:
-                        game.snake.direction = Snake.DIRECTION_RIGHT;
+                        game.setDirection(Direction.right);
                         break;
+                    case 32:
+                        game.pause();
                 }
             });
 
-            game.start(Snake.DIRECTION_DOWN);
+            game.start(0);
         });
     };
 

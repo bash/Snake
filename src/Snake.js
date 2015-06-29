@@ -2,7 +2,7 @@
 
     'use strict';
 
-    define(['src/Block'], function (Block) {
+    define(['src/Block', 'src/Direction'], function (Block, Direction) {
         /**
          *
          * @constructor
@@ -38,7 +38,7 @@
             this.lastParts = [].concat(this.parts);
 
             this.parts.unshift(
-                this._coordinateInDirection(this.parts[0], this.direction)
+                Block.getNeighbour(this.parts[0], this.direction)
             );
 
             this.lastParts.forEach(function (part, i) {
@@ -54,39 +54,30 @@
          */
         Snake.fn.grow = function (block) {
             if (block !== undefined) {
-                this.parts.unshift(block);
+                block.x = this.lastParts[0].x;
+                block.y = this.lastParts[0].y;
+
+                this.parts.push(block);
             } else {
-                this.parts.unshift(
-                    this._coordinateInDirection(this.parts[0], 0)
+                this.parts.push(
+                    Block.getNeighbour(this.parts[0], 0)
                 );
             }
         };
 
         /**
          *
-         * @param {Block} block
          * @param {Number} direction
-         * @private
          */
-        Snake.fn._coordinateInDirection = function (block, direction) {
-            switch (direction) {
-                case 0:
-                    return new Block(block.x, block.y);
-                case Snake.DIRECTION_LEFT:
-                    return new Block(block.x - 1, block.y);
-                case Snake.DIRECTION_RIGHT:
-                    return new Block(block.x + 1, block.y);
-                case Snake.DIRECTION_DOWN:
-                    return new Block(block.x, block.y + 1);
-                case Snake.DIRECTION_UP:
-                    return new Block(block.x, block.y - 1);
-            }
+        Snake.fn.setDirection = function (direction) {
+            this.direction = direction;
         };
 
-        Snake.DIRECTION_UP = 1;
-        Snake.DIRECTION_DOWN = 2;
-        Snake.DIRECTION_LEFT = 3;
-        Snake.DIRECTION_RIGHT = 4;
+        Object.defineProperty(Snake.fn, 'head', {
+            get: function () {
+                return this.parts[0];
+            }
+        });
 
         return Snake;
     });

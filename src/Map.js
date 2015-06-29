@@ -12,6 +12,19 @@
         return Math.floor(Math.random() * highest) + lowest;
     };
 
+    /**
+     *
+     * @param {Array} haystack
+     * @param {Block} needle
+     */
+    var findInArray = function (haystack, needle) {
+        for (var i = 0; i < haystack.length; i++) {
+            if (haystack[i].equals(needle)) {
+                return haystack[i];
+            }
+        }
+    };
+
     define(['src/Block'], function (Block) {
         /**
          *
@@ -48,11 +61,11 @@
 
         /**
          *
-         * @param {Block} coordinate
+         * @param {Block} block
          * @returns {boolean}
          */
-        Map.fn.contains = function (coordinate) {
-            return coordinate.x < this.size && coordinate.y < this.size && coordinate.x > -1 && coordinate.y > -1;
+        Map.fn.contains = function (block) {
+            return block.x < this.size && block.y < this.size && block.x > -1 && block.y > -1;
         };
 
         /**
@@ -77,7 +90,16 @@
          * @returns {Boolean}
          */
         Map.fn.isVacant = function (block) {
-            return this.getBlocks().indexOf(block) === -1;
+            return !findInArray(this.getBlocks(), block);
+        };
+
+        /**
+         *
+         * @param {Block} block
+         * @returns {Boolean}
+         */
+        Map.fn.isVacantBySnake = function(block) {
+            return !findInArray(this.snake, block);
         };
 
         /**

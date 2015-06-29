@@ -2,7 +2,7 @@
 
     'use strict';
 
-    define(function () {
+    define(['src/Direction'], function (Direction) {
         /**
          *
          * @param {Number} x
@@ -45,6 +45,26 @@
          */
         Block.prototype.equals = function (other) {
             return other.x == this.x && other.y == this.y;
+        };
+
+        /**
+         *
+         * @param {Block} block
+         * @param {Number} direction
+         */
+        Block.getNeighbour = function(block, direction) {
+            switch (direction) {
+                case 0:
+                    return new Block(block.x, block.y);
+                case Direction.left:
+                    return new Block(block.x - 1, block.y);
+                case Direction.right:
+                    return new Block(block.x + 1, block.y);
+                case Direction.down:
+                    return new Block(block.x, block.y + 1);
+                case Direction.up:
+                    return new Block(block.x, block.y - 1);
+            }
         };
 
         return Block;

@@ -2,6 +2,16 @@
 
     'use strict';
 
+    /**
+     *
+     * @param {Number} lowest
+     * @param {Number} highest
+     * @returns {Number}
+     */
+    var rand = function (lowest, highest) {
+        return Math.floor(Math.random() * highest) + lowest;
+    };
+
     define(function () {
         /**
          *

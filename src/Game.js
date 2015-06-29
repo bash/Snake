@@ -2,30 +2,17 @@
 
     'use strict';
 
-    /**
-     *
-     * @param {Array} haystack
-     * @param {*} needle
-     */
-    var findInArray = function (haystack, needle) {
-        for (var i = 0; i < haystack.length; i++) {
-            if (haystack[i].equals(needle)) {
-                return haystack[i];
-            }
-        }
-    };
+    var dependencies = ['src/Snake', 'src/Map', 'src/RainbowGenerator', 'src/Block', 'src/GamePlay', 'src/Direction'];
 
-    var dependencies = ['src/Snake', 'src/Map', 'src/RainbowGenerator', 'src/Block', 'src/StopGameError'];
-
-    define(dependencies, function(Snake, Map, RainbowGenerator, Block, StopGameError){
+    define(dependencies, function (Snake, Map, RainbowGenerator, Block, GamePlay, Direction) {
         /**
          *
          * @param {Canvas} canvas
          * @param {Number} speed
-         * @param {Number} gridSize
+         * @param {Number} mapSize
          * @constructor
          */
-        var Game = function Game(canvas, speed, gridSize) {
+        var Game = function Game(canvas) {
             /**
              *
              * @type {Snake}
@@ -36,13 +23,13 @@
              *
              * @type {Number}
              */
-            this.speed = speed || 100;
+            this.speed = 100;
 
             /**
              *
              * @type {Map}
              */
-            this.grid = new Map(gridSize || 25);
+            this.map = new Map();
 
             /**
              *
@@ -52,9 +39,9 @@
 
             /**
              *
-             * @type {RainbowGenerator}
+             * @type {GamePlay}
              */
-            this.generator = new RainbowGenerator();
+            this.gamePlay = new GamePlay(this);
 
             /**
              *
@@ -67,7 +54,7 @@
              * @type {Canvas}
              */
             this.canvas = canvas;
-            this.canvas.grid = this.grid;
+            this.canvas.map = this.map;
         };
 
         Game.fn = Game.prototype;
@@ -77,44 +64,77 @@
          * @param {Number} direction
          */
         Game.fn.start = function (direction) {
-            this.snake.parts[0].color = this.generator.get();
-            this.snake.direction = direction;
+            this.snake.setDirection(direction || 0);
+            this.gamePlay.start();
             this.doTick();
         };
-
 
         Game.fn.doTick = function () {
             var _this = this;
 
-            this.ticks += 1;
-            this.snake.move();
-            this.grid.draw(this.snake.parts);
+            if (!this.isPaused()) {
+                this.ticks += 1;
+                this.gamePlay.doTick(this.ticks);
+            }
+
+            this.map.draw(this.snake.parts);
             this.canvas.update();
-
-            if (this.ticks % 20 == 0 && this.grid.food.length === 0) {
-                var block = this.grid.getRandomVacantBlock();
-                block.color = this.generator.get();
-
-                this.grid.food = [ block ];
-            }
-
-            if (findInArray(this.grid.food, this.snake.parts[0])) {
-                this.snake.grow(this.grid.food[0]);
-                this.grid.food = [];
-            }
-
-            if (!this.grid.contains(this.snake.parts[0])) {
-                this.snake.parts = this.snake.lastParts;
-
-                this.grid.draw(this.snake.parts);
-                this.canvas.update();
-
-                throw new StopGameError(this);
-            }
 
             window.setTimeout(function () {
                 _this.doTick();
             }, this.speed);
+        };
+
+        Game.fn.fireEvent = function(eventName, detail){
+            var event = new CustomEvent(eventName, {
+                detail: detail
+            });
+
+            this.canvas.element.dispatchEvent(event);
+        };
+
+        /**
+         *
+         * @returns {Boolean}
+         */
+        Game.fn.isPaused = function(){
+            return this.snake.direction === 0;
+        };
+
+        Game.fn.pause = function(){
+            this.setDirection(0);
+        };
+
+        /**
+         *
+         * @param {Number} score
+         */
+        Game.fn.updateScore = function(score) {
+            this.score = score;
+            // Make some sort of custom event à la Google Chrome: game.onScoreUpdate.addListener(...)
+            this.fireEvent('scoreUpdate', { score: score });
+        };
+
+        /**
+         *
+         * @param {Map} map
+         */
+        Game.fn.setMap = function (map) {
+            this.map = map;
+            this.canvas.map = map;
+        };
+
+        /**
+         *
+         * @param {Number} direction
+         * @returns {Boolean}
+         */
+        Game.fn.setDirection = function(direction) {
+            if (!this.map.isVacantBySnake(Block.getNeighbour(this.snake.parts[0], direction)) && direction !== 0) {
+                return false;
+            }
+
+            return this.snake.setDirection(direction);
         };
 
         return Game;
