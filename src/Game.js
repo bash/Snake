@@ -85,6 +85,11 @@
             }, this.speed);
         };
 
+        /**
+         *
+         * @param {String} eventName
+         * @param {{}} detail
+         */
         Game.fn.fireEvent = function(eventName, detail){
             var event = new CustomEvent(eventName, {
                 detail: detail

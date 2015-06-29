@@ -2,16 +2,6 @@
 
     'use strict';
 
-    /**
-     *
-     * @param {Number} lowest
-     * @param {Number} highest
-     * @returns {Number}
-     */
-    var rand = function (lowest, highest) {
-        return Math.floor(Math.random() * highest) + lowest;
-    };
-
     define(function () {
         /**
          *
@@ -19,18 +9,18 @@
          */
         var RainbowGenerator = function RainbowGenerator() {
             /**
+             * Got these from Google's pride heart ;-)
              *
              * @type {String[]}
              */
             this.colors = [
-                '#8E7CC3',
-                '#245096',
-                '#6D9EEB',
-                '#93C47D',
-                '#E8E144',
-                '#ECAB67',
-                '#E06666',
-                '#D4479C'
+                '#F03B23', // Red
+                '#FE8B14', // Orange
+                '#F7D612', // Yellow
+                '#009444', // Green
+                '#219EA9', // Bluegreen
+                '#214099', // Blue
+                '#7D3D95'  // Violet
             ];
 
             /**

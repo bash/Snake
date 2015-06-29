@@ -2,7 +2,7 @@
 
     'use strict';
 
-    // Todo: Pause (space bar)
+    // Todo: Clean up interface / Overlay on pause
     // Todo: obstacles
     // Todo: Cleaner Events / Direction update
 
