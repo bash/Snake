@@ -44,6 +44,6 @@
     if (document.readyState == 'complete') {
         main();
     } else {
-        document.addEventListener('DOMContentLoaded', main);
+        window.addEventListener('load', main);
     }
 })();
