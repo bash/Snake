@@ -46,6 +46,10 @@
             return color;
         };
 
+        RainbowGenerator.prototype.rewind = function(){
+           this.next = 0;
+        };
+
         return RainbowGenerator;
     });
 })();

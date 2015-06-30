@@ -90,6 +90,12 @@
 
             /**
              *
+             * @type {Target}
+             */
+            this.onStart = new Target();
+
+            /**
+             *
              * @type {Canvas}
              */
             this.canvas = canvas;
@@ -110,6 +116,7 @@
 
             this.snake.setDirection(direction || 0);
             this.gamePlay.start();
+            this.onStart.dispatch();
 
             this.doTick();
         };
@@ -144,6 +151,8 @@
             this.canvas.map = over();
             this.canvas.update();
             this.over = true;
+
+            this.onGameOver.dispatch({ score: this.score, level: this.level });
         };
 
         /**

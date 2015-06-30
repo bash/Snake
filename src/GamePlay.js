@@ -30,12 +30,11 @@
 
     var dependencies = [
         'src/RainbowGenerator',
-        'src/levels/First',
-        'src/levels/Second',
+        'src/LevelStack',
         'src/StopGameError'
     ];
 
-    define(dependencies, function (Generator, FirstLevel, SecondLevel, StopGameError) {
+    define(dependencies, function (Generator, LevelStack, StopGameError) {
         /**
          *
          * @param {Game} game
@@ -50,9 +49,15 @@
 
             /**
              *
-             * @type {FirstLevel}
+             * @type {{}}
              */
             this.level = null;
+
+            /**
+             *
+             * @type {LevelStack}
+             */
+            this.levelStack = new LevelStack();
 
             /**
              *
@@ -72,9 +77,9 @@
                 snake = game.snake,
                 map = game.map;
 
-            if (game.level === 1 && game.score > 19) {
-                game.updateLevel(2);
-                this.startLevel(new SecondLevel());
+            if (this.levelStack.peek() && game.score >= this.levelStack.peek().entryScore) {
+                this.levelStack.next();
+                this.startLevel();
             }
 
             snake.move();
@@ -135,28 +140,26 @@
         };
 
         GamePlay.fn.start = function () {
-            this.game.updateLevel(1);
-            this.startLevel(new FirstLevel());
+            this.levelStack.current = 0;
+            this.startLevel();
         };
 
-        /**
-         *
-         * @param {{}} level
-         */
-        GamePlay.fn.startLevel = function (level) {
+        GamePlay.fn.startLevel = function () {
             var game = this.game;
 
-            this.level = level;
+            this.level = this.levelStack.get();
+            this.game.updateLevel(this.levelStack.current + 1);
 
             // Set game presets from the level.
-            game.snake.parts = [level.initialBlock];
+            game.snake.parts = [ this.level.initialBlock ];
             game.snake.direction = 0;
-            game.speed = level.tickSpeed;
+            game.speed = this.level.tickSpeed;
 
-            game.setMap(level.map);
-            game.updateScore(game.score + level.entryScore);
+            game.setMap(this.level.map);
+            game.updateScore(game.score);
 
             // Get snake color from generator
+            this.generator.rewind();
             this.game.snake.head.color = this.generator.get();
         };
 
