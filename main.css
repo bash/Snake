@@ -18,3 +18,8 @@ h1 {
 .snake-canvas {
     border: 2px solid #6D9EEB;
 }
+
+.snake-level, .snake-score {
+    color: #6D9EEB;
+    font-weight: 700;
+}

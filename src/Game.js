@@ -9,10 +9,11 @@
         'src/Block',
         'src/GamePlay',
         'src/StopGameError',
-        'src/drawings/over'
+        'src/drawings/over',
+        'src/Events'
     ];
 
-    define(dependencies, function (Snake, Map, RainbowGenerator, Block, GamePlay, StopGameError, over) {
+    define(dependencies, function (Snake, Map, RainbowGenerator, Block, GamePlay, StopGameError, over, Target) {
         /**
          *
          * @param {Canvas} canvas
@@ -68,6 +69,24 @@
              * @type {boolean}
              */
             this.over = false;
+
+            /**
+             *
+             * @type {Target}
+             */
+            this.onScoreUpdate = new Target();
+
+            /**
+             *
+             * @type {Target}
+             */
+            this.onGameOver = new Target();
+
+            /**
+             *
+             * @type {Target}
+             */
+            this.onLevelUpdate = new Target();
 
             /**
              *
@@ -129,19 +148,6 @@
 
         /**
          *
-         * @param {String} eventName
-         * @param {{}} detail
-         */
-        Game.fn.fireEvent = function(eventName, detail){
-            var event = new CustomEvent(eventName, {
-                detail: detail
-            });
-
-            this.canvas.element.dispatchEvent(event);
-        };
-
-        /**
-         *
          * @returns {Boolean}
          */
         Game.fn.isPaused = function(){
@@ -158,8 +164,16 @@
          */
         Game.fn.updateScore = function(score) {
             this.score = score;
-            // Make some sort of custom event à la Google Chrome: game.onScoreUpdate.addListener(...)
-            this.fireEvent('scoreUpdate', { score: score });
+            this.onScoreUpdate.dispatch({ score: score });
+        };
+
+        /**
+         *
+         * @param {Number} level
+         */
+        Game.fn.updateLevel = function(level) {
+            this.level = level;
+            this.onLevelUpdate.dispatch({ level: level });
         };
 
         /**

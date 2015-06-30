@@ -72,8 +72,8 @@
                 snake = game.snake,
                 map = game.map;
 
-            if (game.level === 1 && game.score > 20) {
-                game.level = 2;
+            if (game.level === 1 && game.score > 19) {
+                game.updateLevel(2);
                 this.startLevel(new SecondLevel());
             }
 
@@ -135,6 +135,7 @@
         };
 
         GamePlay.fn.start = function () {
+            this.game.updateLevel(1);
             this.startLevel(new FirstLevel());
         };
 

@@ -8,14 +8,14 @@
 
     var main = function () {
         require(['src/Game', 'src/Canvas', 'src/Direction'], function (Game, Canvas, Direction) {
-            var canvas, $canvas, game;
+            var game = new Game(new Canvas(document.querySelector('.snake-canvas')));
 
-            $canvas = document.querySelector('.snake-canvas');
-            canvas = new Canvas($canvas);
-            game = new Game(canvas);
-
-            $canvas.addEventListener('scoreUpdate', function (e) {
+            game.onScoreUpdate.addListener(function (e) {
                 document.querySelector('.snake-score').innerText = e.detail.score;
+            });
+
+            game.onLevelUpdate.addListener(function (e) {
+                document.querySelector('.snake-level').innerText = e.detail.level;
             });
 
             window.addEventListener('keydown', function (e) {
