@@ -121,6 +121,14 @@
             this.doTick();
         };
 
+        /**
+         *
+         * @returns {boolean}
+         */
+        Game.fn.hasStarted = function() {
+            return this.ticks > 0;
+        };
+
         Game.fn.doTick = function () {
             var _this = this;
 

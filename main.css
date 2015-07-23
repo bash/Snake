@@ -23,3 +23,37 @@ h1 {
     color: #6D9EEB;
     font-weight: 700;
 }
+
+button {
+    border: none;
+    background-color: transparent;
+    color: #6D9EEB;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-bottom: 3px solid transparent;
+}
+
+button:focus {
+    outline: none;
+}
+
+button.-active {
+    border-color: #6D9EEB;
+}
+
+.controls-container {
+    display: block;
+    margin-top: 10px;
+}
+
+.control-description {
+    display: none;
+}
+
+[data-pick-control="mouse"].-active ~ .control-description.-mouse {
+    display: block;
+}
+
+[data-pick-control="keyboard"].-active ~ .control-description.-keyboard {
+    display: block;
+}

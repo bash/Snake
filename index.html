@@ -22,9 +22,17 @@
 
     <h3>Score: <span class="snake-score"></span> Level: <span class="snake-level"></span></h3>
     <canvas class="snake-canvas"></canvas>
-    <p>Use the arrow keys to control the snake.</p>
 
-    <p>Press &lt;Space&gt; to Pause or Restart after Game Over.</p>
+    <div class="controls-container">
+        <button class="-active" data-pick-control="keyboard">Keyboard</button>
+        <button data-pick-control="mouse">Mouse</button>
+
+        <p class="control-description -keyboard">Press &lt;Space&gt; to Pause/Resume or Restart after Game Over.</p>
+        <p class="control-description -mouse">Press &lt;Space&gt; to Pause/Resume and click to restart after Game Over.</p>
+    </div>
+
+
+    <p></p>
 </main>
 </body>
 </html>
