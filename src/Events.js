@@ -1,61 +1,59 @@
-(function(){
+/**
+ * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
+ */
 
-    'use strict';
-
-    define(function(){
+export class Event {
+    /**
+     *
+     * @param {{}} detail
+     */
+    constructor(detail = {}) {
         /**
          *
-         * @param {{}} details
-         * @constructor
+         * @type {{}}
          */
-        var Event = function Event(detail) {
-            /**
-             *
-             * @type {{}}
-             */
-            this.detail = detail;
-        };
+        this.detail = detail;
+    }
+}
 
-        var EventTarget = function EventTarget(){
-            this.listeners = [];
-        };
-
+export class EventTarget {
+    constructor() {
         /**
          *
-         * @param {{}} details
+         * @type {Array}
          */
-        EventTarget.prototype.dispatch = function(details){
-            var event = new Event(details);
+        this.listeners = [];
+    }
 
-            this.listeners.forEach(function(listener){
-                listener.call(listener.__thisArg__, event);
-            });
-        };
+    /**
+     *
+     * @param {{}} detail
+     */
+    dispatch(detail) {
+        let event = new Event(detail);
 
-        /**
-         *
-         * @param {Function} listener
-         * @param {Object} thisArg
-         */
-        EventTarget.prototype.addListener = function(listener, thisArg) {
-            if (this.listeners.indexOf(listener) === -1) {
-                this.listeners.push(listener);
-                listener.__thisArg__ = thisArg;
-            }
-        };
+        this.listeners.forEach(function (listener) {
+            listener.call(null, event);
+        });
+    }
 
-        /**
-         *
-         * @param {Function} listener
-         */
-        EventTarget.prototype.removeListener = function(listener) {
-            var index = this.listeners.indexOf(listener);
+    /**
+     *
+     * @param {Function} callbackFn
+     */
+    addListener(callbackFn) {
+        this.listeners.push(callbackFn);
+    }
 
-            if (index !== -1) {
-                this.listeners.splice(index, 1);
-            }
-        };
+    /**
+     *
+     * @param {Function} callbackFn
+     */
+    removeListener(callbackFn) {
+        let index = this.listeners.indexOf(callbackFn);
 
-        return EventTarget;
-    });
-})();
+        if (index !== -1) {
+            this.listeners.splice(index, 1);
+        }
+    }
+}

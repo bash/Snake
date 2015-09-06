@@ -1,50 +1,69 @@
-(function () {
+/**
+ * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
+ */
 
-    'use strict';
-
-    define(function () {
+export class Canvas {
+    /**
+     *
+     * @param {HTMLCanvasElement} $
+     * @param {Map} map
+     * @param {number} blockSize
+     */
+    constructor($, map = null, blockSize = 30) {
         /**
          *
-         * @param {HTMLCanvasElement} element
-         * @param {Grid} grid
-         * @constructor
+         * @type {HTMLCanvasElement}
          */
-        var Canvas = function Canvas(element, map) {
-            /**
-             *
-             * @type {HTMLCanvasElement}
-             */
-            this.element = element;
+        this.$ = $;
 
-            /**
-             *
-             * @type {Map}
-             */
-            this.map = map;
+        /**
+         *
+         * @type {CanvasRenderingContext2D}
+         */
+        this.ctx = this.$.getContext('2d');
 
-            /**
-             *
-             * @type {number}
-             */
-            this.blockSize = 30;
-        };
+        /**
+         *
+         * @type {Map}
+         */
+        this.map = map;
 
+        /**
+         *
+         * @type {number}
+         */
+        this.blockSize = blockSize;
+    }
 
-        Canvas.prototype.update = function () {
-            var ctx = this.element.getContext('2d');
-            // Reset pointer
-            ctx.clearRect(0, 0, this.element.width, this.element.height);
+    update() {
+        let size = this.getRealSize(this.map.size);
 
-            // Update canvas size
-            this.element.width = this.element.height = this.map.size * this.blockSize;
+        this.clear();
 
-            this.map.getBlocks().forEach(function (block) {
-                ctx.fillStyle = block.color;
+        this.$.width = size;
+        this.$.height = size;
 
-                ctx.fillRect(block.x * this.blockSize, block.y * this.blockSize, this.blockSize, this.blockSize);
-            }, this);
-        };
+        this.map.blocks.forEach((block) => {
+            this.ctx.fillStyle = block.color;
 
-        return Canvas;
-    });
-})();
+            this.ctx.fillRect(
+                this.getRealSize(block.x),
+                this.getRealSize(block.y),
+                this.blockSize,
+                this.blockSize
+            );
+        });
+    }
+
+    clear() {
+        this.ctx.clearRect(0, 0, this.$.width, this.$.height);
+    }
+
+    /**
+     *
+     * @param {number} n
+     */
+    getRealSize(n) {
+        return n * this.blockSize;
+    }
+}
