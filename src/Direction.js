@@ -1,43 +1,54 @@
-(function(){
+/**
+ * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
+ */
 
-    'use strict';
+export class Direction {
+    /**
+     *
+     * @param {number} direction
+     * @returns {number}
+     */
+    static getOpposite(direction) {
+        return -direction;
+    }
 
-    define(function(){
-        var Direction = {};
+    /**
+     *
+     * @param {number} a
+     * @param {number} b
+     * @returns {boolean}
+     */
+    static areOpposites(a, b) {
+        return a === -b && a !== 0 && b !== 0;
+    }
+}
 
-        Object.defineProperty(Direction, 'up', {
-            value: 1
-        });
+/**
+ *
+ * @type {number}
+ */
+Direction.none = 0;
 
-        Object.defineProperty(Direction, 'down', {
-            value: -1
-        });
+/**
+ *
+ * @type {number}
+ */
+Direction.up = 1;
 
-        Object.defineProperty(Direction, 'left', {
-            value: 2
-        });
+/**
+ *
+ * @type {number}
+ */
+Direction.down = -1;
 
-        Object.defineProperty(Direction, 'right', {
-            value: -2
-        });
+/**
+ *
+ * @type {number}
+ */
+Direction.left = 2;
 
-        /**
-         *
-         * @param {Number} direction
-         */
-        Direction.getOpposite = function(direction) {
-            return -direction;
-        };
-
-        /**
-         *
-         * @param {Number} a
-         * @param {Number} b
-         */
-        Direction.areOpposites = function(a, b){
-            return a == -b && a != b != 0;
-        };
-
-        return Direction;
-    });
-})();
+/**
+ *
+ * @type {number}
+ */
+Direction.right = -2;
