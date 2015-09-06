@@ -354,7 +354,7 @@ var Block = (function () {
     }, {
         key: 'equals',
         value: function equals(other) {
-            return other.x == this.x && other.y == this.y;
+            return other.x === this.x && other.y === this.y;
         }
 
         /**
@@ -618,14 +618,13 @@ var Snake = (function () {
 
             var partsBefore = [].concat(this.parts);
 
+            this.parts.unshift(this.parts[0].getNeighbour(this.direction));
+
             partsBefore.forEach(function (part, i) {
                 _this.parts[i].color = part.color;
             });
 
             this.stash.push(partsBefore);
-
-            this.parts.unshift(this.parts[0].getNeighbour(this.direction));
-
             this.parts.pop();
         }
     }, {
@@ -642,11 +641,11 @@ var Snake = (function () {
         key: 'grow',
         value: function grow(block) {
             if (block !== undefined) {
-                var head = this.head;
+                var head = this.stash[this.stash.length - 1][0];
 
                 this.parts.push(new _block.Block(head.x, head.y, block.color));
             } else {
-                this.parts.push(this.head.getNeighbour(_direction.Direction.none));
+                this.parts.push(this.head.getNeighbour(_direction.Direction.getOpposite(this.direction)));
             }
         }
 
@@ -1007,17 +1006,14 @@ var GamePlay = (function () {
             }
 
             snake.move();
-            map.snake = snake;
 
             this.spawnFood(tick);
-            this.consumeFood();
 
             // Todo: create function for these lovely ifs
 
             // Test if the snake hit the border
             if (!map.contains(snake.head)) {
                 snake.back();
-                map.snake = snake;
 
                 throw new _stopGameError.StopGameError(game);
             }
@@ -1025,7 +1021,6 @@ var GamePlay = (function () {
             // Test if snake hit an obstacle
             if ((0, _utils.findBlockInArray)(map.obstacles, snake.head)) {
                 snake.back();
-                map.snake = snake;
 
                 throw new _stopGameError.StopGameError(game);
             }
@@ -1037,6 +1032,8 @@ var GamePlay = (function () {
 
                 throw new _stopGameError.StopGameError(game);
             }
+
+            this.consumeFood();
         }
 
         /**
@@ -1061,9 +1058,7 @@ var GamePlay = (function () {
             if ((0, _utils.findBlockInArray)(this.map.food, this.snake.head)) {
                 var game = this.game;
 
-                game.snake.grow(game.map.food[0]);
-                game.map.food = [];
-
+                game.snake.grow(game.map.food.pop());
                 game.updateScore(game.score + this.level.multiplier);
             }
         }
@@ -1326,6 +1321,7 @@ var Game = (function () {
     value: function setMap(map) {
       this.map = map;
       this.canvas.map = map;
+      this.canvas.update();
     }
 
     /**

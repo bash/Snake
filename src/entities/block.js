@@ -45,7 +45,7 @@ export class Block {
      * @returns {boolean}
      */
     equals(other) {
-        return other.x == this.x && other.y == this.y;
+        return other.x === this.x && other.y === this.y;
     }
 
     /**

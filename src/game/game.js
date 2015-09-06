@@ -193,6 +193,7 @@ export class Game {
     setMap(map) {
         this.map = map;
         this.canvas.map = map;
+        this.canvas.update();
     }
 
     /**

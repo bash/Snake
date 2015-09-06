@@ -93,17 +93,14 @@ export class GamePlay {
         }
 
         snake.move();
-        map.snake = snake;
 
         this.spawnFood(tick);
-        this.consumeFood();
 
         // Todo: create function for these lovely ifs
 
         // Test if the snake hit the border
         if (!map.contains(snake.head)) {
             snake.back();
-            map.snake = snake;
 
             throw new StopGameError(game);
         }
@@ -111,7 +108,6 @@ export class GamePlay {
         // Test if snake hit an obstacle
         if (findBlockInArray(map.obstacles, snake.head)) {
             snake.back();
-            map.snake = snake;
 
             throw new StopGameError(game);
         }
@@ -123,6 +119,8 @@ export class GamePlay {
 
             throw new StopGameError(game);
         }
+
+        this.consumeFood();
     }
 
     /**
@@ -144,9 +142,7 @@ export class GamePlay {
         if (findBlockInArray(this.map.food, this.snake.head)) {
             let game = this.game;
 
-            game.snake.grow(game.map.food[0]);
-            game.map.food = [];
-
+            game.snake.grow(game.map.food.pop());
             game.updateScore(game.score + this.level.multiplier);
         }
     }

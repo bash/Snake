@@ -33,16 +33,15 @@ export class Snake {
     move() {
         let partsBefore = [].concat(this.parts);
 
+        this.parts.unshift(
+            this.parts[0].getNeighbour(this.direction)
+        );
+
         partsBefore.forEach((part, i) => {
             this.parts[i].color = part.color;
         });
 
         this.stash.push(partsBefore);
-
-        this.parts.unshift(
-            this.parts[0].getNeighbour(this.direction)
-        );
-
         this.parts.pop();
     }
 
@@ -56,11 +55,11 @@ export class Snake {
      */
     grow(block) {
         if (block !== undefined) {
-            let head = this.head;
+            let head = this.stash[this.stash.length - 1][0];
 
             this.parts.push(new Block(head.x, head.y, block.color));
         } else {
-            this.parts.push(this.head.getNeighbour(Direction.none));
+            this.parts.push(this.head.getNeighbour(Direction.getOpposite(this.direction)));
         }
     }
 
