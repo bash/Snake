@@ -39,7 +39,6 @@ onReady().then(function(){
     // Event Listeners
     //
     game.onScoreUpdate.addListener(function (e) {
-        game.updateScore(100);
         $score.innerText = e.detail.score;
     });
 
@@ -108,4 +107,5 @@ onReady().then(function(){
     });
 
     game.start();
+    game.updateScore(100);
 });

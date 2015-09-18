@@ -6,7 +6,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -14,80 +14,80 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Canvas = (function () {
+  /**
+   *
+   * @param {HTMLCanvasElement} $
+   * @param {Map} map
+   * @param {number} blockSize
+   */
+
+  function Canvas($) {
+    var map = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+    var blockSize = arguments.length <= 2 || arguments[2] === undefined ? 30 : arguments[2];
+
+    _classCallCheck(this, Canvas);
+
     /**
      *
-     * @param {HTMLCanvasElement} $
-     * @param {Map} map
-     * @param {number} blockSize
+     * @type {HTMLCanvasElement}
      */
+    this.$ = $;
 
-    function Canvas($) {
-        var map = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-        var blockSize = arguments.length <= 2 || arguments[2] === undefined ? 30 : arguments[2];
+    /**
+     *
+     * @type {CanvasRenderingContext2D}
+     */
+    this.ctx = this.$.getContext('2d');
 
-        _classCallCheck(this, Canvas);
+    /**
+     *
+     * @type {Map}
+     */
+    this.map = map;
 
-        /**
-         *
-         * @type {HTMLCanvasElement}
-         */
-        this.$ = $;
+    /**
+     *
+     * @type {number}
+     */
+    this.blockSize = blockSize;
+  }
 
-        /**
-         *
-         * @type {CanvasRenderingContext2D}
-         */
-        this.ctx = this.$.getContext('2d');
+  _createClass(Canvas, [{
+    key: 'update',
+    value: function update() {
+      var _this = this;
 
-        /**
-         *
-         * @type {Map}
-         */
-        this.map = map;
+      var size = this.getRealSize(this.map.size);
 
-        /**
-         *
-         * @type {number}
-         */
-        this.blockSize = blockSize;
+      this.clear();
+
+      this.$.width = size;
+      this.$.height = size;
+
+      this.map.blocks.forEach(function (block) {
+        _this.ctx.fillStyle = block.color;
+
+        _this.ctx.fillRect(_this.getRealSize(block.x), _this.getRealSize(block.y), _this.blockSize, _this.blockSize);
+      });
+    }
+  }, {
+    key: 'clear',
+    value: function clear() {
+      this.ctx.clearRect(0, 0, this.$.width, this.$.height);
     }
 
-    _createClass(Canvas, [{
-        key: 'update',
-        value: function update() {
-            var _this = this;
+    /**
+     *
+     * @param {number} n
+     */
+  }, {
+    key: 'getRealSize',
+    value: function getRealSize(n) {
+      return n * this.blockSize;
+    }
+  }]);
 
-            var size = this.getRealSize(this.map.size);
-
-            this.clear();
-
-            this.$.width = size;
-            this.$.height = size;
-
-            this.map.blocks.forEach(function (block) {
-                _this.ctx.fillStyle = block.color;
-
-                _this.ctx.fillRect(_this.getRealSize(block.x), _this.getRealSize(block.y), _this.blockSize, _this.blockSize);
-            });
-        }
-    }, {
-        key: 'clear',
-        value: function clear() {
-            this.ctx.clearRect(0, 0, this.$.width, this.$.height);
-        }
-
-        /**
-         *
-         * @param {number} n
-         */
-    }, {
-        key: 'getRealSize',
-        value: function getRealSize(n) {
-            return n * this.blockSize;
-        }
-    }]);
-
-    return Canvas;
+  return Canvas;
 })();
 
 exports.Canvas = Canvas;
@@ -220,7 +220,7 @@ function onReady() {
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-        value: true
+    value: true
 });
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -234,52 +234,52 @@ var _entitiesBlock = require('../entities/block');
 var _rainbowGenerator = require('../rainbow-generator');
 
 var OverDrawing = (function () {
-        function OverDrawing() {
-                _classCallCheck(this, OverDrawing);
+    function OverDrawing() {
+        _classCallCheck(this, OverDrawing);
+    }
+
+    _createClass(OverDrawing, null, [{
+        key: 'draw',
+
+        /**
+         *
+         * @returns {Map}
+         */
+        value: function draw() {
+            var map = new _entitiesMap.Map(20),
+                generator = new _rainbowGenerator.RainbowGenerator();
+
+            var x = 1,
+                y = 7;
+
+            // Draw the "O"
+            map.obstacles.push(new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x + 1, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 3, generator.get()), new _entitiesBlock.Block(x + 3, y + 2, generator.get()), new _entitiesBlock.Block(x + 3, y + 1, generator.get()), new _entitiesBlock.Block(x + 2, y, generator.get()), new _entitiesBlock.Block(x + 1, y, generator.get()));
+
+            x = x + 5;
+
+            // Draw "V"
+            map.obstacles.push(new _entitiesBlock.Block(x, y, generator.get()), new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x + 1, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 3, generator.get()), new _entitiesBlock.Block(x + 3, y + 2, generator.get()), new _entitiesBlock.Block(x + 3, y + 1, generator.get()), new _entitiesBlock.Block(x + 3, y, generator.get()));
+
+            x = x + 5;
+
+            // Draw "E"
+            map.obstacles.push(new _entitiesBlock.Block(x, y, generator.get()), new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x, y + 4, generator.get()), new _entitiesBlock.Block(x + 1, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y, generator.get()), new _entitiesBlock.Block(x + 1, y, generator.get()),
+            // Midle parts
+            new _entitiesBlock.Block(x + 2, y + 2, generator.get()), new _entitiesBlock.Block(x + 1, y + 2, generator.get()));
+
+            x = x + 4;
+
+            // Draw the "R"
+            map.obstacles.push(new _entitiesBlock.Block(x, y, generator.get()), new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 3, generator.get()), new _entitiesBlock.Block(x + 3, y + 1, generator.get()), new _entitiesBlock.Block(x + 2, y, generator.get()), new _entitiesBlock.Block(x + 1, y, generator.get()),
+
+            // Midle parts
+            new _entitiesBlock.Block(x + 2, y + 2, generator.get()), new _entitiesBlock.Block(x + 1, y + 2, generator.get()));
+
+            return map;
         }
+    }]);
 
-        _createClass(OverDrawing, null, [{
-                key: 'draw',
-
-                /**
-                 *
-                 * @returns {Map}
-                 */
-                value: function draw() {
-                        var map = new _entitiesMap.Map(20),
-                            generator = new _rainbowGenerator.RainbowGenerator();
-
-                        var x = 1,
-                            y = 7;
-
-                        // Draw the "O"
-                        map.obstacles.push(new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x + 1, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 3, generator.get()), new _entitiesBlock.Block(x + 3, y + 2, generator.get()), new _entitiesBlock.Block(x + 3, y + 1, generator.get()), new _entitiesBlock.Block(x + 2, y, generator.get()), new _entitiesBlock.Block(x + 1, y, generator.get()));
-
-                        x = x + 5;
-
-                        // Draw "V"
-                        map.obstacles.push(new _entitiesBlock.Block(x, y, generator.get()), new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x + 1, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 3, generator.get()), new _entitiesBlock.Block(x + 3, y + 2, generator.get()), new _entitiesBlock.Block(x + 3, y + 1, generator.get()), new _entitiesBlock.Block(x + 3, y, generator.get()));
-
-                        x = x + 5;
-
-                        // Draw "E"
-                        map.obstacles.push(new _entitiesBlock.Block(x, y, generator.get()), new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x, y + 4, generator.get()), new _entitiesBlock.Block(x + 1, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y + 4, generator.get()), new _entitiesBlock.Block(x + 2, y, generator.get()), new _entitiesBlock.Block(x + 1, y, generator.get()),
-                        // Midle parts
-                        new _entitiesBlock.Block(x + 2, y + 2, generator.get()), new _entitiesBlock.Block(x + 1, y + 2, generator.get()));
-
-                        x = x + 4;
-
-                        // Draw the "R"
-                        map.obstacles.push(new _entitiesBlock.Block(x, y, generator.get()), new _entitiesBlock.Block(x, y + 1, generator.get()), new _entitiesBlock.Block(x, y + 2, generator.get()), new _entitiesBlock.Block(x, y + 3, generator.get()), new _entitiesBlock.Block(x, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 4, generator.get()), new _entitiesBlock.Block(x + 3, y + 3, generator.get()), new _entitiesBlock.Block(x + 3, y + 1, generator.get()), new _entitiesBlock.Block(x + 2, y, generator.get()), new _entitiesBlock.Block(x + 1, y, generator.get()),
-
-                        // Midle parts
-                        new _entitiesBlock.Block(x + 2, y + 2, generator.get()), new _entitiesBlock.Block(x + 1, y + 2, generator.get()));
-
-                        return map;
-                }
-        }]);
-
-        return OverDrawing;
+    return OverDrawing;
 })();
 
 exports.OverDrawing = OverDrawing;
@@ -405,7 +405,7 @@ exports.Block = Block;
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -419,37 +419,65 @@ var _blockJs = require('./block.js');
 var _snakeJs = require('./snake.js');
 
 var Map = (function () {
+  /**
+   *
+   * @param {number} size
+   */
+
+  function Map(size) {
+    _classCallCheck(this, Map);
+
     /**
      *
-     * @param {number} size
+     * @type {number}
      */
+    this.size = size;
 
-    function Map(size) {
-        _classCallCheck(this, Map);
+    /**
+     *
+     * @type {Array}
+     */
+    this.snake = [];
 
-        /**
-         *
-         * @type {number}
-         */
-        this.size = size;
+    /**
+     *
+     * @type {Array}
+     */
+    this.obstacles = [];
 
-        /**
-         *
-         * @type {Array}
-         */
-        this.snake = [];
+    /**
+     *
+     * @type {Array}
+     */
+    this.food = [];
+  }
 
-        /**
-         *
-         * @type {Array}
-         */
-        this.obstacles = [];
+  /**
+   *
+   * @param {Block} block
+   * @returns {boolean}
+   */
 
-        /**
-         *
-         * @type {Array}
-         */
-        this.food = [];
+  _createClass(Map, [{
+    key: 'contains',
+    value: function contains(block) {
+      return block.x < this.size && block.y < this.size && block.x > -1 && block.y > -1;
+    }
+
+    /**
+     *
+     * @param {Snake|Array} snake
+     */
+  }, {
+    key: 'isVacant',
+
+    /**
+     *
+     * @param {Block} block
+     * @returns {boolean}
+     */
+    value: function isVacant(block) {
+      return !(0, _utilsJs.findBlockInArray)(this.blocks, block);
     }
 
     /**
@@ -457,108 +485,80 @@ var Map = (function () {
      * @param {Block} block
      * @returns {boolean}
      */
+  }, {
+    key: 'isVacantFromSnake',
+    value: function isVacantFromSnake(block) {
+      return !(0, _utilsJs.findBlockInArray)(this.snake, block);
+    }
 
-    _createClass(Map, [{
-        key: 'contains',
-        value: function contains(block) {
-            return block.x < this.size && block.y < this.size && block.x > -1 && block.y > -1;
-        }
+    /**
+     *
+     * @returns {Block}
+     */
+  }, {
+    key: 'getRandomBlock',
+    value: function getRandomBlock(color) {
+      var x = (0, _utilsJs.random)(0, this.size),
+          y = (0, _utilsJs.random)(0, this.size);
 
-        /**
-         *
-         * @param {Snake|Array} snake
-         */
-    }, {
-        key: 'isVacant',
+      return new _blockJs.Block(x, y, color);
+    }
 
-        /**
-         *
-         * @param {Block} block
-         * @returns {boolean}
-         */
-        value: function isVacant(block) {
-            return !(0, _utilsJs.findBlockInArray)(this.blocks, block);
-        }
+    /**
+     *
+     * @returns {Block}
+     */
+  }, {
+    key: 'getRandomVacantBlock',
+    value: function getRandomVacantBlock(color) {
+      var block = this.getRandomBlock(color);
 
-        /**
-         *
-         * @param {Block} block
-         * @returns {boolean}
-         */
-    }, {
-        key: 'isVacantFromSnake',
-        value: function isVacantFromSnake(block) {
-            return !(0, _utilsJs.findBlockInArray)(this.snake, block);
-        }
+      while (!this.isVacant(block)) {
+        block = this.getRandomBlock(color);
+      }
 
-        /**
-         *
-         * @returns {Block}
-         */
-    }, {
-        key: 'getRandomBlock',
-        value: function getRandomBlock(color) {
-            var x = (0, _utilsJs.random)(0, this.size),
-                y = (0, _utilsJs.random)(0, this.size);
+      return block;
+    }
 
-            return new _blockJs.Block(x, y, color);
-        }
+    /**
+     *
+     * @returns {number}
+     */
+  }, {
+    key: 'getCenter',
+    value: function getCenter() {
+      return Math.floor(this.size / 2);
+    }
+  }, {
+    key: 'snake',
+    set: function set(snake) {
+      if (snake instanceof _snakeJs.Snake) {
+        snake = snake.toArray();
+      }
 
-        /**
-         *
-         * @returns {Block}
-         */
-    }, {
-        key: 'getRandomVacantBlock',
-        value: function getRandomVacantBlock(color) {
-            var block = this.getRandomBlock(color);
+      this._snake = snake;
+    },
 
-            while (!this.isVacant(block)) {
-                block = this.getRandomBlock(color);
-            }
+    /**
+     *
+     * @returns {Snake|Array}
+     */
+    get: function get() {
+      return this._snake;
+    }
 
-            return block;
-        }
+    /**
+     *
+     * @returns {Block[]}
+     */
+  }, {
+    key: 'blocks',
+    get: function get() {
+      return this.snake.concat(this.food).concat(this.obstacles);
+    }
+  }]);
 
-        /**
-         *
-         * @returns {number}
-         */
-    }, {
-        key: 'getCenter',
-        value: function getCenter() {
-            return Math.floor(this.size / 2);
-        }
-    }, {
-        key: 'snake',
-        set: function set(snake) {
-            if (snake instanceof _snakeJs.Snake) {
-                snake = snake.toArray();
-            }
-
-            this._snake = snake;
-        },
-
-        /**
-         *
-         * @returns {Snake|Array}
-         */
-        get: function get() {
-            return this._snake;
-        }
-
-        /**
-         *
-         * @returns {Block[]}
-         */
-    }, {
-        key: 'blocks',
-        get: function get() {
-            return this.snake.concat(this.food).concat(this.obstacles);
-        }
-    }]);
-
-    return Map;
+  return Map;
 })();
 
 exports.Map = Map;
@@ -898,6 +898,7 @@ var _gameGame = require('./game/game');
     });
 
     game.start();
+    game.updateScore(100);
 });
 
 },{"./canvas":1,"./direction":2,"./dom":3,"./game/game":11}],10:[function(require,module,exports){
@@ -1092,7 +1093,7 @@ exports.GamePlay = GamePlay;
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1118,231 +1119,231 @@ var _events = require('../events');
 var _direction = require('../direction');
 
 var Game = (function () {
+  /**
+   *
+   * @param {Canvas} canvas
+   */
+
+  function Game(canvas) {
+    _classCallCheck(this, Game);
+
     /**
      *
-     * @param {Canvas} canvas
+     * @type {Map}
      */
+    this.map = new _entitiesMap.Map();
 
-    function Game(canvas) {
-        _classCallCheck(this, Game);
+    /**
+     *
+     * @type {Canvas}
+     */
+    this.canvas = canvas;
+    this.canvas.map = this.map;
 
-        /**
-         *
-         * @type {Map}
-         */
-        this.map = new _entitiesMap.Map();
+    /**
+     *
+     * @type {Snake}
+     */
+    this.snake = new _entitiesSnake.Snake(new _entitiesBlock.Block(0, 0));
 
-        /**
-         *
-         * @type {Canvas}
-         */
-        this.canvas = canvas;
-        this.canvas.map = this.map;
+    /**
+     *
+     * @type {number}
+     */
+    this.speed = 100;
 
-        /**
-         *
-         * @type {Snake}
-         */
-        this.snake = new _entitiesSnake.Snake(new _entitiesBlock.Block(0, 0));
+    /**
+     *
+     * @type {number}
+     */
+    this.score = 0;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.speed = 100;
+    /**
+     *
+     * @type {GamePlay}
+     */
+    this.gamePlay = new _gamePlay.GamePlay(this);
 
-        /**
-         *
-         * @type {number}
-         */
-        this.score = 0;
+    /**
+     *
+     * @type {number}
+     */
+    this.ticks = 0;
 
-        /**
-         *
-         * @type {GamePlay}
-         */
-        this.gamePlay = new _gamePlay.GamePlay(this);
+    /**
+     *
+     * @type {number}
+     */
+    this.level = 1;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.ticks = 0;
+    /**
+     *
+     * @type {boolean}
+     */
+    this.over = false;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.level = 1;
+    /**
+     *
+     * @type {EventTarget}
+     */
+    this.onScoreUpdate = new _events.EventTarget();
 
-        /**
-         *
-         * @type {boolean}
-         */
-        this.over = false;
+    /**
+     *
+     * @type {EventTarget}
+     */
+    this.onGameOver = new _events.EventTarget();
 
-        /**
-         *
-         * @type {EventTarget}
-         */
-        this.onScoreUpdate = new _events.EventTarget();
+    /**
+     *
+     * @type {EventTarget}
+     */
+    this.onLevelUpdate = new _events.EventTarget();
 
-        /**
-         *
-         * @type {EventTarget}
-         */
-        this.onGameOver = new _events.EventTarget();
+    /**
+     *
+     * @type {EventTarget}
+     */
+    this.onStart = new _events.EventTarget();
+  }
 
-        /**
-         *
-         * @type {EventTarget}
-         */
-        this.onLevelUpdate = new _events.EventTarget();
+  /**
+   *
+   * @param {number} direction
+   */
 
-        /**
-         *
-         * @type {EventTarget}
-         */
-        this.onStart = new _events.EventTarget();
+  _createClass(Game, [{
+    key: 'start',
+    value: function start() {
+      var direction = arguments.length <= 0 || arguments[0] === undefined ? _direction.Direction.none : arguments[0];
+
+      this.over = false;
+      this.score = 0;
+      this.level = 1;
+      this.ticks = 0;
+
+      this.snake.direction = direction;
+      this.gamePlay.start();
+      this.onStart.dispatch();
+
+      this.doTick();
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+  }, {
+    key: 'hasStarted',
+    value: function hasStarted() {
+      return this.ticks > 0;
+    }
+  }, {
+    key: 'doTick',
+    value: function doTick() {
+      var _this = this;
+
+      if (!this.isPaused()) {
+        this.ticks++;
+
+        try {
+          this.gamePlay.doTick(this.ticks);
+        } catch (e) {
+          if (e instanceof _stopGameError.StopGameError) {
+            this.gameOver();
+            return;
+          }
+
+          throw e;
+        }
+      }
+
+      this.map.snake = this.snake;
+      this.canvas.update();
+
+      setTimeout(function () {
+        _this.doTick();
+      }, this.speed);
+    }
+  }, {
+    key: 'gameOver',
+    value: function gameOver() {
+      this.setMap(_drawingsOverDrawing.OverDrawing.draw());
+      this.setDirection(_direction.Direction.none);
+
+      this.over = true;
+
+      this.onGameOver.dispatch({ score: this.score, level: this.level, ticks: this.ticks });
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+  }, {
+    key: 'isPaused',
+    value: function isPaused() {
+      return this.snake.direction === 0;
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      this.setDirection(_direction.Direction.none);
+    }
+
+    /**
+     *
+     * @param {number} score
+     */
+  }, {
+    key: 'updateScore',
+    value: function updateScore(score) {
+      this.score = score;
+      this.onScoreUpdate.dispatch({ score: score });
+    }
+
+    /**
+     *
+     * @param {number} level
+     */
+  }, {
+    key: 'updateLevel',
+    value: function updateLevel(level) {
+      this.level = level;
+      this.onLevelUpdate.dispatch({ level: level });
+    }
+
+    /**
+     *
+     * @param {Map} map
+     */
+  }, {
+    key: 'setMap',
+    value: function setMap(map) {
+      this.map = map;
+      this.canvas.map = map;
+      this.canvas.update();
     }
 
     /**
      *
      * @param {number} direction
+     * @returns {*}
      */
+  }, {
+    key: 'setDirection',
+    value: function setDirection(direction) {
+      var snake = this.snake;
 
-    _createClass(Game, [{
-        key: 'start',
-        value: function start() {
-            var direction = arguments.length <= 0 || arguments[0] === undefined ? _direction.Direction.none : arguments[0];
+      if (!this.map.isVacantFromSnake(snake.head.getNeighbour(direction)) && direction !== _direction.Direction.none) {
+        return false;
+      }
 
-            this.over = false;
-            this.score = 0;
-            this.level = 1;
-            this.ticks = 0;
+      return snake.direction = direction;
+    }
+  }]);
 
-            this.snake.direction = direction;
-            this.gamePlay.start();
-            this.onStart.dispatch();
-
-            this.doTick();
-        }
-
-        /**
-         *
-         * @returns {boolean}
-         */
-    }, {
-        key: 'hasStarted',
-        value: function hasStarted() {
-            return this.ticks > 0;
-        }
-    }, {
-        key: 'doTick',
-        value: function doTick() {
-            var _this = this;
-
-            if (!this.isPaused()) {
-                this.ticks++;
-
-                try {
-                    this.gamePlay.doTick(this.ticks);
-                } catch (e) {
-                    if (e instanceof _stopGameError.StopGameError) {
-                        this.gameOver();
-                        return;
-                    }
-
-                    throw e;
-                }
-            }
-
-            this.map.snake = this.snake;
-            this.canvas.update();
-
-            setTimeout(function () {
-                _this.doTick();
-            }, this.speed);
-        }
-    }, {
-        key: 'gameOver',
-        value: function gameOver() {
-            this.setMap(_drawingsOverDrawing.OverDrawing.draw());
-            this.setDirection(_direction.Direction.none);
-
-            this.over = true;
-
-            this.onGameOver.dispatch({ score: this.score, level: this.level, ticks: this.ticks });
-        }
-
-        /**
-         *
-         * @returns {boolean}
-         */
-    }, {
-        key: 'isPaused',
-        value: function isPaused() {
-            return this.snake.direction === 0;
-        }
-    }, {
-        key: 'pause',
-        value: function pause() {
-            this.setDirection(_direction.Direction.none);
-        }
-
-        /**
-         *
-         * @param {number} score
-         */
-    }, {
-        key: 'updateScore',
-        value: function updateScore(score) {
-            this.score = score;
-            this.onScoreUpdate.dispatch({ score: score });
-        }
-
-        /**
-         *
-         * @param {number} level
-         */
-    }, {
-        key: 'updateLevel',
-        value: function updateLevel(level) {
-            this.level = level;
-            this.onLevelUpdate.dispatch({ level: level });
-        }
-
-        /**
-         *
-         * @param {Map} map
-         */
-    }, {
-        key: 'setMap',
-        value: function setMap(map) {
-            this.map = map;
-            this.canvas.map = map;
-            this.canvas.update();
-        }
-
-        /**
-         *
-         * @param {number} direction
-         * @returns {*}
-         */
-    }, {
-        key: 'setDirection',
-        value: function setDirection(direction) {
-            var snake = this.snake;
-
-            if (!this.map.isVacantFromSnake(snake.head.getNeighbour(direction)) && direction !== _direction.Direction.none) {
-                return false;
-            }
-
-            return snake.direction = direction;
-        }
-    }]);
-
-    return Game;
+  return Game;
 })();
 
 exports.Game = Game;
@@ -1355,7 +1356,7 @@ exports.Game = Game;
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1363,29 +1364,29 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var StopGameError = (function () {
+  /**
+   *
+   * @param {Game} game
+   */
+
+  function StopGameError(game) {
+    _classCallCheck(this, StopGameError);
+
     /**
      *
-     * @param {Game} game
+     * @type {Game}
      */
+    this.game = game;
+  }
 
-    function StopGameError(game) {
-        _classCallCheck(this, StopGameError);
-
-        /**
-         *
-         * @type {Game}
-         */
-        this.game = game;
+  _createClass(StopGameError, [{
+    key: 'toString',
+    value: function toString() {
+      return 'Game stopped after ' + this.game.ticks + ' ticks';
     }
+  }]);
 
-    _createClass(StopGameError, [{
-        key: 'toString',
-        value: function toString() {
-            return 'Game stopped after ' + this.game.ticks + ' ticks';
-        }
-    }]);
-
-    return StopGameError;
+  return StopGameError;
 })();
 
 exports.StopGameError = StopGameError;
@@ -1398,7 +1399,7 @@ exports.StopGameError = StopGameError;
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-        value: true
+  value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -1408,62 +1409,48 @@ var _entitiesMap = require('../entities/map');
 var _entitiesBlock = require('../entities/block');
 
 var FifthLevel = function FifthLevel() {
-        _classCallCheck(this, FifthLevel);
+  _classCallCheck(this, FifthLevel);
 
-        /**
-         *
-         * @type {Map}
-         */
-        this.map = new _entitiesMap.Map(21);
+  /**
+   *
+   * @type {Map}
+   */
+  this.map = new _entitiesMap.Map(21);
 
-        var center = this.map.getCenter();
+  var center = this.map.getCenter();
 
-        /**
-         *
-         * @type {Block}
-         */
-        this.initialBlock = new _entitiesBlock.Block(center - 4, center);
+  /**
+   *
+   * @type {Block}
+   */
+  this.initialBlock = new _entitiesBlock.Block(center - 4, center);
 
-        /**
-         *
-         * @type {number}
-         */
-        this.tickSpeed = 110;
+  /**
+   *
+   * @type {number}
+   */
+  this.tickSpeed = 110;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.entryScore = 70;
+  /**
+   *
+   * @type {number}
+   */
+  this.entryScore = 70;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.multiplier = 2;
+  /**
+   *
+   * @type {number}
+   */
+  this.multiplier = 2;
 
-        var obstacles = this.map.obstacles,
-            size = this.map.size;
+  var obstacles = this.map.obstacles,
+      size = this.map.size;
 
-        for (var i = size - 4; i > 0; i++) {
-                obstacles.push(new _entitiesBlock.Block(9, i + 4, '#ccc'));
-        }
-
-        /*for (let i = size - 4; i > 0; i++) {
-            obstacles.push( new Block(9, i + 4, '#ccc') );
-        }*/
-
-        /*
-        // Add some obstacles
-        for (let i = 4; i < size - 3; i++) {
-            obstacles.push( new Block(center, i, '#ccc') );
-        }
-          for (let i = 4; i < size - 4; i++) {
-            obstacles.push( new Block(i, 4, '#ccc') );
-        }
-          for (let i = 4; i < size - 4; i++) {
-            obstacles.push( new Block(i, size - 4, '#ccc') );
-        }*/
+  for (var i = 0; i < size - 4; i++) {
+    obstacles.push(new _entitiesBlock.Block(i + 4, 9, '#ccc'));
+    obstacles.push(new _entitiesBlock.Block(i, 3, '#ccc'));
+    obstacles.push(new _entitiesBlock.Block(i, 16, '#ccc'));
+  }
 };
 
 exports.FifthLevel = FifthLevel;
@@ -1531,7 +1518,7 @@ exports.FirstLevel = FirstLevel;
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-        value: true
+  value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -1541,55 +1528,55 @@ var _entitiesMap = require('../entities/map');
 var _entitiesBlock = require('../entities/block');
 
 var FourthLevel = function FourthLevel() {
-        _classCallCheck(this, FourthLevel);
+  _classCallCheck(this, FourthLevel);
 
-        /**
-         *
-         * @type {Map}
-         */
-        this.map = new _entitiesMap.Map(21);
+  /**
+   *
+   * @type {Map}
+   */
+  this.map = new _entitiesMap.Map(21);
 
-        var center = this.map.getCenter();
+  var center = this.map.getCenter();
 
-        /**
-         *
-         * @type {Block}
-         */
-        this.initialBlock = new _entitiesBlock.Block(center - 4, center);
+  /**
+   *
+   * @type {Block}
+   */
+  this.initialBlock = new _entitiesBlock.Block(center - 4, center);
 
-        /**
-         *
-         * @type {number}
-         */
-        this.tickSpeed = 125;
+  /**
+   *
+   * @type {number}
+   */
+  this.tickSpeed = 125;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.entryScore = 50;
+  /**
+   *
+   * @type {number}
+   */
+  this.entryScore = 50;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.multiplier = 2;
+  /**
+   *
+   * @type {number}
+   */
+  this.multiplier = 2;
 
-        var obstacles = this.map.obstacles,
-            size = this.map.size;
+  var obstacles = this.map.obstacles,
+      size = this.map.size;
 
-        // Add some obstacles
-        for (var i = 4; i < size - 3; i++) {
-                obstacles.push(new _entitiesBlock.Block(center, i, '#ccc'));
-        }
+  // Add some obstacles
+  for (var i = 4; i < size - 3; i++) {
+    obstacles.push(new _entitiesBlock.Block(center, i, '#ccc'));
+  }
 
-        for (var i = 4; i < size - 4; i++) {
-                obstacles.push(new _entitiesBlock.Block(i, 4, '#ccc'));
-        }
+  for (var i = 4; i < size - 4; i++) {
+    obstacles.push(new _entitiesBlock.Block(i, 4, '#ccc'));
+  }
 
-        for (var i = 4; i < size - 4; i++) {
-                obstacles.push(new _entitiesBlock.Block(i, size - 4, '#ccc'));
-        }
+  for (var i = 4; i < size - 4; i++) {
+    obstacles.push(new _entitiesBlock.Block(i, size - 4, '#ccc'));
+  }
 };
 
 exports.FourthLevel = FourthLevel;
@@ -1731,7 +1718,7 @@ exports.SecondLevel = SecondLevel;
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-        value: true
+  value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -1741,56 +1728,56 @@ var _entitiesMap = require('../entities/map');
 var _entitiesBlock = require('../entities/block');
 
 var ThirdLevel = function ThirdLevel() {
-        _classCallCheck(this, ThirdLevel);
+  _classCallCheck(this, ThirdLevel);
 
-        /**
-         *
-         * @type {Map}
-         */
-        this.map = new _entitiesMap.Map(20);
+  /**
+   *
+   * @type {Map}
+   */
+  this.map = new _entitiesMap.Map(20);
 
-        var center = Math.floor(this.map.size / 2);
+  var center = Math.floor(this.map.size / 2);
 
-        /**
-         *
-         * @type {Block}
-         */
-        this.initialBlock = new _entitiesBlock.Block(center, center);
+  /**
+   *
+   * @type {Block}
+   */
+  this.initialBlock = new _entitiesBlock.Block(center, center);
 
-        /**
-         *
-         * @type {number}
-         */
-        this.tickSpeed = 125;
+  /**
+   *
+   * @type {number}
+   */
+  this.tickSpeed = 125;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.entryScore = 30;
+  /**
+   *
+   * @type {number}
+   */
+  this.entryScore = 30;
 
-        /**
-         *
-         * @type {number}
-         */
-        this.multiplier = 2;
+  /**
+   *
+   * @type {number}
+   */
+  this.multiplier = 2;
 
-        var obstacles = this.map.obstacles;
+  var obstacles = this.map.obstacles;
 
-        // Add some obstacles
-        for (var i = 4; i < 16; i++) {
-                obstacles.push(new _entitiesBlock.Block(i, 5, '#ccc'));
-        }
+  // Add some obstacles
+  for (var i = 4; i < 16; i++) {
+    obstacles.push(new _entitiesBlock.Block(i, 5, '#ccc'));
+  }
 
-        obstacles.push(new _entitiesBlock.Block(4, 6, '#ccc'));
-        obstacles.push(new _entitiesBlock.Block(15, 6, '#ccc'));
+  obstacles.push(new _entitiesBlock.Block(4, 6, '#ccc'));
+  obstacles.push(new _entitiesBlock.Block(15, 6, '#ccc'));
 
-        for (var j = 4; j < 16; j++) {
-                obstacles.push(new _entitiesBlock.Block(j, 15, '#ccc'));
-        }
+  for (var j = 4; j < 16; j++) {
+    obstacles.push(new _entitiesBlock.Block(j, 15, '#ccc'));
+  }
 
-        obstacles.push(new _entitiesBlock.Block(4, 14, '#ccc'));
-        obstacles.push(new _entitiesBlock.Block(15, 14, '#ccc'));
+  obstacles.push(new _entitiesBlock.Block(4, 14, '#ccc'));
+  obstacles.push(new _entitiesBlock.Block(15, 14, '#ccc'));
 };
 
 exports.ThirdLevel = ThirdLevel;

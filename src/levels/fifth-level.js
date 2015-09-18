@@ -42,12 +42,10 @@ export class FifthLevel {
         let obstacles = this.map.obstacles,
             size = this.map.size;
 
-        for (let i = size - 4; i > 0; i++) {
+        for (let i = 0; i < size - 4; i++) {
             obstacles.push( new Block(i + 4, 9, '#ccc') );
-        }
-
-        for (let i = size - 4; i > 0; i++) {
-            obstacles.push( new Block(0, center - 9, '#ccc') );
+            obstacles.push( new Block(i, 3, '#ccc') );
+            obstacles.push( new Block(i, 16, '#ccc') );
         }
     }
 }
