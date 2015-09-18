@@ -6,6 +6,7 @@ import { FirstLevel } from './first-level';
 import { SecondLevel } from './second-level';
 import { ThirdLevel } from './third-level';
 import { FourthLevel } from './fourth-level';
+import { FifthLevel } from './fifth-level';
 
 export class LevelStack {
     constructor() {
@@ -17,7 +18,8 @@ export class LevelStack {
             new FirstLevel(),
             new SecondLevel(),
             new ThirdLevel(),
-            new FourthLevel()
+            new FourthLevel(),
+            new FifthLevel()
         ];
 
         this.current = 0;
