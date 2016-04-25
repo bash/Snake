@@ -898,7 +898,6 @@ var _gameGame = require('./game/game');
     });
 
     game.start();
-    game.updateScore(100);
 });
 
 },{"./canvas":1,"./direction":2,"./dom":3,"./game/game":11}],10:[function(require,module,exports){
