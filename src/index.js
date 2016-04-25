@@ -107,4 +107,5 @@ onReady().then(function(){
     });
 
     game.start();
+    game.updateScore(100);
 });

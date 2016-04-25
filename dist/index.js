@@ -284,7 +284,7 @@ var OverDrawing = (function () {
 
 exports.OverDrawing = OverDrawing;
 
-},{"../entities/block":5,"../entities/map":6,"../rainbow-generator":18}],5:[function(require,module,exports){
+},{"../entities/block":5,"../entities/map":6,"../rainbow-generator":19}],5:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -563,7 +563,7 @@ var Map = (function () {
 
 exports.Map = Map;
 
-},{"../utils.js":19,"./block.js":5,"./snake.js":7}],7:[function(require,module,exports){
+},{"../utils.js":20,"./block.js":5,"./snake.js":7}],7:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -898,6 +898,7 @@ var _gameGame = require('./game/game');
     });
 
     game.start();
+    game.updateScore(100);
 });
 
 },{"./canvas":1,"./direction":2,"./dom":3,"./game/game":11}],10:[function(require,module,exports){
@@ -1084,7 +1085,7 @@ var GamePlay = (function () {
 
 exports.GamePlay = GamePlay;
 
-},{"../levels/level-stack":15,"../rainbow-generator":18,"../utils":19,"./stop-game-error":12}],11:[function(require,module,exports){
+},{"../levels/level-stack":16,"../rainbow-generator":19,"../utils":20,"./stop-game-error":12}],11:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1347,7 +1348,7 @@ var Game = (function () {
 
 exports.Game = Game;
 
-},{"../direction":2,"../drawings/over-drawing":4,"../entities/block":5,"../entities/map":6,"../entities/snake":7,"../events":8,"../rainbow-generator":18,"./game-play":10,"./stop-game-error":12}],12:[function(require,module,exports){
+},{"../direction":2,"../drawings/over-drawing":4,"../entities/block":5,"../entities/map":6,"../entities/snake":7,"../events":8,"../rainbow-generator":19,"./game-play":10,"./stop-game-error":12}],12:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1407,6 +1408,70 @@ var _entitiesMap = require('../entities/map');
 
 var _entitiesBlock = require('../entities/block');
 
+var FifthLevel = function FifthLevel() {
+  _classCallCheck(this, FifthLevel);
+
+  /**
+   *
+   * @type {Map}
+   */
+  this.map = new _entitiesMap.Map(21);
+
+  var center = this.map.getCenter();
+
+  /**
+   *
+   * @type {Block}
+   */
+  this.initialBlock = new _entitiesBlock.Block(center - 4, center);
+
+  /**
+   *
+   * @type {number}
+   */
+  this.tickSpeed = 110;
+
+  /**
+   *
+   * @type {number}
+   */
+  this.entryScore = 70;
+
+  /**
+   *
+   * @type {number}
+   */
+  this.multiplier = 2;
+
+  var obstacles = this.map.obstacles,
+      size = this.map.size;
+
+  for (var i = 0; i < size - 4; i++) {
+    obstacles.push(new _entitiesBlock.Block(i + 4, 9, '#ccc'));
+    obstacles.push(new _entitiesBlock.Block(i, 3, '#ccc'));
+    obstacles.push(new _entitiesBlock.Block(i, 16, '#ccc'));
+  }
+};
+
+exports.FifthLevel = FifthLevel;
+
+},{"../entities/block":5,"../entities/map":6}],14:[function(require,module,exports){
+/**
+ * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
+ */
+
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _entitiesMap = require('../entities/map');
+
+var _entitiesBlock = require('../entities/block');
+
 var FirstLevel = function FirstLevel() {
   _classCallCheck(this, FirstLevel);
 
@@ -1445,7 +1510,7 @@ var FirstLevel = function FirstLevel() {
 
 exports.FirstLevel = FirstLevel;
 
-},{"../entities/block":5,"../entities/map":6}],14:[function(require,module,exports){
+},{"../entities/block":5,"../entities/map":6}],15:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1516,7 +1581,7 @@ var FourthLevel = function FourthLevel() {
 
 exports.FourthLevel = FourthLevel;
 
-},{"../entities/block":5,"../entities/map":6}],15:[function(require,module,exports){
+},{"../entities/block":5,"../entities/map":6}],16:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1539,6 +1604,8 @@ var _thirdLevel = require('./third-level');
 
 var _fourthLevel = require('./fourth-level');
 
+var _fifthLevel = require('./fifth-level');
+
 var LevelStack = (function () {
     function LevelStack() {
         _classCallCheck(this, LevelStack);
@@ -1547,7 +1614,7 @@ var LevelStack = (function () {
          *
          * @type {*[]}
          */
-        this.levels = [new _firstLevel.FirstLevel(), new _secondLevel.SecondLevel(), new _thirdLevel.ThirdLevel(), new _fourthLevel.FourthLevel()];
+        this.levels = [new _firstLevel.FirstLevel(), new _secondLevel.SecondLevel(), new _thirdLevel.ThirdLevel(), new _fourthLevel.FourthLevel(), new _fifthLevel.FifthLevel()];
 
         this.current = 0;
     }
@@ -1588,7 +1655,7 @@ var LevelStack = (function () {
 
 exports.LevelStack = LevelStack;
 
-},{"./first-level":13,"./fourth-level":14,"./second-level":16,"./third-level":17}],16:[function(require,module,exports){
+},{"./fifth-level":13,"./first-level":14,"./fourth-level":15,"./second-level":17,"./third-level":18}],17:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1643,7 +1710,7 @@ var SecondLevel = function SecondLevel() {
 
 exports.SecondLevel = SecondLevel;
 
-},{"../entities/block":5,"../entities/map":6}],17:[function(require,module,exports){
+},{"../entities/block":5,"../entities/map":6}],18:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1715,7 +1782,7 @@ var ThirdLevel = function ThirdLevel() {
 
 exports.ThirdLevel = ThirdLevel;
 
-},{"../entities/block":5,"../entities/map":6}],18:[function(require,module,exports){
+},{"../entities/block":5,"../entities/map":6}],19:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
@@ -1786,7 +1853,7 @@ var RainbowGenerator = (function () {
 
 exports.RainbowGenerator = RainbowGenerator;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
