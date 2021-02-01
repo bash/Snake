@@ -57,3 +57,10 @@ button.-active {
 [data-pick-control="keyboard"].-active ~ .control-description.-keyboard {
     display: block;
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #000;
+        color: #fff;
+    }
+}
