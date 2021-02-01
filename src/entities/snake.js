@@ -30,11 +30,11 @@ export class Snake {
         this.direction = Direction.none;
     }
 
-    move() {
+    move(map) {
         let partsBefore = [].concat(this.parts);
 
         this.parts.unshift(
-            this.parts[0].getNeighbour(this.direction)
+            map.getNeighbour(this.parts[0], this.direction)
         );
 
         partsBefore.forEach((part, i) => {
@@ -53,13 +53,13 @@ export class Snake {
      *
      * @param {Block} block
      */
-    grow(block) {
+    grow(map, block) {
         if (block !== undefined) {
             let head = this.stash[this.stash.length - 1][0];
 
             this.parts.push(new Block(head.x, head.y, block.color));
         } else {
-            this.parts.push(this.head.getNeighbour(Direction.getOpposite(this.direction)));
+            this.parts.push(map.getNeighbour(this.head, Direction.getOpposite(this.direction)));
         }
     }
 

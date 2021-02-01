@@ -209,7 +209,7 @@ export class Game {
     setDirection(direction) {
         let snake = this.snake;
 
-        if (!this.map.isVacantFromSnake(snake.head.getNeighbour(direction)) && direction !== Direction.none) {
+        if (!this.map.isVacantFromSnake(this.map.getNeighbour(snake.head, direction)) && direction !== Direction.none) {
             return false;
         }
 

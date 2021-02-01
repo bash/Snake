@@ -2,6 +2,7 @@
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
 
+import { Direction } from '../direction.js';
 import { random, findBlockInArray } from '../utils.js';
 import { Block } from './block.js';
 import { Snake } from './snake.js';
@@ -123,5 +124,38 @@ export class Map {
      */
     getCenter() {
         return Math.floor(this.size / 2);
+    }
+
+    /**
+     * @param {Block} block
+     * @param {number} direction
+     */
+    getNeighbour(block, direction) {
+        switch (direction) {
+            case 0:
+                return new Block(block.x, block.y, block.color);
+            case Direction.left:
+                return new Block(this._wrappingDecrement(block.x), block.y, block.color);
+            case Direction.right:
+                return new Block(this._wrappingIncrement(block.x), block.y, block.color);
+            case Direction.down:
+                return new Block(block.x, this._wrappingIncrement(block.y), block.color);
+            case Direction.up:
+                return new Block(block.x, this._wrappingDecrement(block.y), block.color);
+        }
+
+        throw new Error(`Invalid direction ${direction}`);
+    }
+
+    _wrappingIncrement(value) {
+        return value == this.size - 1
+            ? 0
+            : value + 1;
+    }
+
+    _wrappingDecrement(value) {
+        return value == 0
+            ? this.size - 1
+            : value - 1;
     }
 }

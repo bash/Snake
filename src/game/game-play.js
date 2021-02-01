@@ -92,7 +92,7 @@ export class GamePlay {
             this.startLevel();
         }
 
-        snake.move();
+        snake.move(map);
 
         this.spawnFood(tick);
 
@@ -142,7 +142,7 @@ export class GamePlay {
         if (findBlockInArray(this.map.food, this.snake.head)) {
             let game = this.game;
 
-            game.snake.grow(game.map.food.pop());
+            game.snake.grow(game.map, game.map.food.pop());
             game.updateScore(game.score + this.level.multiplier);
         }
     }
