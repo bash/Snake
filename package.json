@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup src/index.js --file dist/index.js --format iife"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.0",
     "gulp-uglify": "^1.4.0",
+    "rollup": "^2.38.3",
     "uglifyify": "^3.0.1"
   }
 }
