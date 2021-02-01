@@ -44,7 +44,14 @@ export class Canvas {
         this.$.height = size;
 
         this.map.blocks.forEach((block) => {
-            this.ctx.fillStyle = block.color;
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            console.log(`isDarkMode = ${isDarkMode}`);
+            const effectiveColor = typeof block.color === 'string'
+                ? block.color
+                : (isDarkMode
+                    ? block.color.darkMode
+                    : block.color.lightMode);
+            this.ctx.fillStyle = effectiveColor;
 
             this.ctx.fillRect(
                 this.getRealSize(block.x),

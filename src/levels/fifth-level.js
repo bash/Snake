@@ -4,6 +4,7 @@
 
 import { Map } from '../entities/map';
 import { Block } from '../entities/block';
+import { WALL_COLOR } from '../color';
 
 export class FifthLevel {
     constructor() {
@@ -43,9 +44,9 @@ export class FifthLevel {
             size = this.map.size;
 
         for (let i = 0; i < size - 4; i++) {
-            obstacles.push( new Block(i + 4, 9, '#ccc') );
-            obstacles.push( new Block(i, 3, '#ccc') );
-            obstacles.push( new Block(i, 16, '#ccc') );
+            obstacles.push( new Block(i + 4, 9, WALL_COLOR) );
+            obstacles.push( new Block(i, 3, WALL_COLOR) );
+            obstacles.push( new Block(i, 16, WALL_COLOR) );
         }
     }
 }

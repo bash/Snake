@@ -96,6 +96,9 @@ export class Game {
          * @type {EventTarget}
          */
         this.onStart = new EventTarget();
+
+        /** @type {EventTarget} */
+        this.onTick = new EventTarget();
     }
 
     /**
@@ -137,6 +140,8 @@ export class Game {
 
                 throw e;
             }
+
+            this.onTick.dispatch();
         }
 
         this.map.snake = this.snake;

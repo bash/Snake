@@ -2,6 +2,8 @@
  * (c) 2015 Ruben Schmidmeister <ruby@fog.im>
  */
 
+import { Color } from "./color";
+
 export class RainbowGenerator {
     /**
      *
@@ -9,13 +11,13 @@ export class RainbowGenerator {
      */
     static get colors() {
         return [
-            '#F03B23', // Red
-            '#FE8B14', // Orange
-            '#F7D612', // Yellow
-            '#009444', // Green
-            '#219EA9', // Bluegreen
-            '#214099', // Blue
-            '#7D3D95'  // Violet
+            new Color('#D9361F', '#8C2214'), // Red
+            new Color('#FE8B14', '#CC7010'), // Orange
+            new Color('#F7D612', '#C4AA0E'), // Yellow
+            new Color('#009444', '#007A38'), // Green
+            new Color('#219EA9', '#1C868F'), // Bluegreen
+            new Color('#214099', '#214099'), // Blue
+            new Color('#7D3D95', '#7D3D95')  // Violet
         ];
     }
 

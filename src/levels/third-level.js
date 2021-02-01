@@ -4,6 +4,7 @@
 
 import { Map } from '../entities/map';
 import { Block } from '../entities/block';
+import { WALL_COLOR } from '../color';
 
 export class ThirdLevel {
     constructor() {
@@ -43,17 +44,17 @@ export class ThirdLevel {
 
         // Add some obstacles
         for (var i = 4; i < 16; i++) {
-            obstacles.push( new Block(i, 5, '#ccc') );
+            obstacles.push( new Block(i, 5, WALL_COLOR) );
         }
 
-        obstacles.push( new Block(4, 6, '#ccc') );
-        obstacles.push( new Block(15, 6, '#ccc') );
+        obstacles.push( new Block(4, 6, WALL_COLOR) );
+        obstacles.push( new Block(15, 6, WALL_COLOR) );
 
         for (var j = 4; j < 16; j++) {
-            obstacles.push( new Block(j, 15, '#ccc') );
+            obstacles.push( new Block(j, 15, WALL_COLOR) );
         }
 
-        obstacles.push( new Block(4, 14, '#ccc') );
-        obstacles.push( new Block(15, 14, '#ccc') );
+        obstacles.push( new Block(4, 14, WALL_COLOR) );
+        obstacles.push( new Block(15, 14, WALL_COLOR) );
     }
 }
