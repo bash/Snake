@@ -148,9 +148,7 @@ export class Map {
     }
 
     _wrappingIncrement(value) {
-        return value == this.size - 1
-            ? 0
-            : value + 1;
+        return (value + 1) % this.size;
     }
 
     _wrappingDecrement(value) {
