@@ -47,34 +47,4 @@ export class Block {
     equals(other) {
         return other.x === this.x && other.y === this.y;
     }
-
-    /**
-     *
-     * @param {number} direction
-     */
-    getNeighbour(direction) {
-        return Block.getNeighbour(this, direction);
-    }
-
-    /**
-     *
-     * @param {Block} block
-     * @param {number} direction
-     */
-    static getNeighbour(block, direction) {
-        switch (direction) {
-            case 0:
-                return new Block(block.x, block.y, block.color);
-            case Direction.left:
-                return new Block(block.x - 1, block.y, block.color);
-            case Direction.right:
-                return new Block(block.x + 1, block.y, block.color);
-            case Direction.down:
-                return new Block(block.x, block.y + 1, block.color);
-            case Direction.up:
-                return new Block(block.x, block.y - 1, block.color);
-        }
-
-        throw new Error(`Invalid direction ${direction}`);
-    }
 }
