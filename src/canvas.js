@@ -45,7 +45,6 @@ export class Canvas {
 
         this.map.blocks.forEach((block) => {
             const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            console.log(`isDarkMode = ${isDarkMode}`);
             const effectiveColor = typeof block.color === 'string'
                 ? block.color
                 : (isDarkMode
